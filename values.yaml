@@ -1,0 +1,59 @@
+jump-app-micros:
+  enabled: false
+
+jump-app-argocd:
+  enabled: false
+
+jump-app-cicd:
+  enabled: true
+  namespaceDev: jump-app-dev
+  namespacePre: jump-app-pre
+  namespacePro: jump-app-pro
+  namespaceGitOps: openshift-gitops
+  functTestRepo: https://github.com/jeanpaullb/jump-app-functional-tests.git
+  functTestRepoBranch: master
+  functTestMicro: front-javascript
+  pipeTypes:
+    - nodejs
+    - golang
+    - python
+    - java
+  gitBranchPro: master
+  gitBranchDev: develop
+  sa: tekton-deployments-admin
+
+# Global variables
+global:
+  appsDomain: apps.cluster-tkb4k.dynamic.redhatworkshops.io
+  # Jump microservices settings
+  apps:
+    front-javascript:
+      build: is
+      imagestream: nodejs:14-ubi8
+      imagestreamNamespace: openshift
+      versions:
+        - v1
+      type: nodejs
+      gitRepo: https://github.com/jeanpaullb/jump-app-typescrypt-react.git
+    back-golang:
+      build: dockerfile
+      versions:
+        - v1
+      gitRepo: https://github.com/jeanpaullb/jump-app-golang.git
+      type: golang
+    back-python:
+      build: is
+      imagestream: python:latest
+      imagestreamNamespace: openshift
+      versions:
+        - v1
+      gitRepo: https://github.com/jeanpaullb/jump-app-python.git
+      type: python
+    back-springboot:
+      build: is
+      imagestream: java:latest
+      imagestreamNamespace: openshift
+      versions:
+        - v1
+      gitRepo: https://github.com/jeanpaullb/jump-app-java-springboot.git
+      type: java
